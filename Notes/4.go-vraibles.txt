@@ -1,0 +1,101 @@
+🧩 What is a Variable?
+=======================
+
+A variable is like a box where you can store something — a number, a piece of text, a value. When you need to use this value later in your code, you can reference the box by its name.
+
+🔑 How do you declare a variable in Go?
+=========================================
+
+In Go, variables are declared using the var keyword, followed by the variable name and the type (the kind of value it stores).
+
+EX: 
+
+var age int
+
+age: The name of the variable (think of it as the box's label).
+
+int: The type of the variable (meaning it stores an integer, i.e., whole numbers).
+
+💡 You can also assign a value while declaring a variable.
+===========================================================
+
+Example:
+
+var age int = 25
+
+🌟 Shorter Way to Declare and Assign (Using :=)
+================================================
+
+If you want to declare and assign a value at the same time without explicitly using var and the type, you can use :=.
+
+Example: age := 25
+
+Go automatically understands that age should be an int because you're assigning it an integer value (25).
+
+📝 Types of Variables in Go
+===========================
+
+Go is statically typed, meaning you must specify the type of the variable. Here are some common types:
+
+1. int: For whole numbers (like 25, -3, 1000).
+
+2. float64: For decimal numbers (like 3.14, -1.75).
+
+3. string: For text (like "Hello", "Go is fun!").
+
+4. bool: For true/false values (like true, false).
+
+🚀 Example with Different Types
+=================================
+
+var name string = "Alice"  // name is a string
+var age int = 30           // age is an int
+var height float64 = 5.9   // height is a float64
+var isStudent bool = true  // isStudent is a boolean
+
+🏆 Default Values of Variables
+===============================
+
+If you declare a variable but don't assign it a value, Go will automatically give it a default value based on its type:
+
+int: 0
+
+float64: 0.0
+
+string: "" (empty string)
+
+bool: false
+
+📝 More Examples
+==================
+
+Declare variables and assign later:
+
+var age int
+age = 25  // Assigning value after declaration
+
+var name string
+name = "Alice"
+
+Declare multiple variables:
+You can declare multiple variables in a single line like this:
+
+var x, y int = 10, 20  // x and y are both integers
+
+
+Declare multiple variables with short declaration :=:
+x, y := 10, 20  // both x and y are declared and assigned in one go
+
+
+
+
+
+
+
+
+
+
+
+
+
+
