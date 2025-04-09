@@ -1,0 +1,58 @@
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello world")
+}
+
+
+🧠 Line-by-Line Breakdown
+--------------------------
+
+🔹 package main
+Think of package like a folder or a group of files that work together.
+
+main is a special package in Go that tells the Go compiler:
+
+"This is where the program starts. Run from here!"
+
+✅ So any file that starts with package main is saying,
+👉 "I'm the main entry point — run me like an app!"
+
+
+🔹 import "fmt"
+
+You're importing a helper toolkit from Go’s standard library.
+
+fmt stands for "formatting" — it's a built-in Go package.
+
+It helps you print text, format strings, show numbers, and more.
+
+✅ You’re telling Go:
+👉 "Hey, I want to use the tools from the fmt package — bring them in."
+
+
+🔹 func main() { ... }
+
+func means "function" — basically, a block of code that does something.
+
+main() is a special function that Go runs first when you execute the program.
+
+✅ It’s like saying:
+👉 "Start here when running the program!"
+
+
+🔹 fmt.Println("Hello world")
+
+You’re using the fmt package to print text to the screen.
+
+Println means "Print line" — it prints and moves to the next line.
+
+✅ So this line simply does:
+👉 "Print: Hello world"
+
+
+
+
+
