@@ -87,6 +87,29 @@ Declare multiple variables with short declaration :=:
 x, y := 10, 20  // both x and y are declared and assigned in one go
 
 
+Constants:
+===========
+
+In Go, constants are values that cannot be changed once they are defined. They are useful when you need to use values throughout your code that should remain the same and not be accidentally altered. Constants can be numbers, strings, or even characters, and they are defined using the const keyword.
+
+Key Points about Constants in Go:
+
+1. Constant Value Doesn't Change: Once a constant is assigned a value, it cannot be changed during the program’s execution.
+
+2. Data Types: Constants can have types, but Go also supports untyped constants, which can be used wherever the corresponding type is expected.
+
+3. Compile-time Evaluation: Constants are evaluated at compile time, not at runtime.
+
+Defining Constants:
+You define a constant using the const keyword, followed by the constant name, its type (optional), and its value.
+
+EX:
+
+const constantName constantType = constantValue
+
+Or for untyped constants:
+
+const constantName = constantValue
 
 
 
