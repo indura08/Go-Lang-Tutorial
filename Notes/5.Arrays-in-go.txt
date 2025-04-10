@@ -1,0 +1,79 @@
+🟨 What is an Array in Go?
+---------------------------
+
+You already know — an array holds a fixed number of elements of the same type.
+
+In Go:
+
+Array = fixed size
+
+Once you declare the size, you can’t change it
+
+Arrays have zero-based indexing like in C#/Java
+
+✅ How to declare and initialize arrays
+----------------------------------------
+
+1. Declare with size and type
+
+var nums [3]int
+
+This creates: [0, 0, 0] → 3 integers all starting at zero.
+
+2. Initialize with values directly
+
+nums := [3]int{10, 20, 30}
+
+Or let Go figure out the size:
+
+nums := [...]int{10, 20, 30}
+
+(... tells Go: “You count how many items, bro.”)
+
+3. Access and update values
+
+nums[0] = 100
+fmt.Println(nums[0]) // → 100
+
+🎯 Other Cool Array Stuff
+-----------------------------
+
+🔁 Looping through arrays (with for)
+
+for i := 0; i < len(nums); i++ {
+	fmt.Println(nums[i])
+}
+
+Or use Go’s clean range style:
+
+for i, val := range nums {
+	fmt.Println("Index:", i, "Value:", val)
+}
+
+🔍 Get array length
+
+len(nums) // → number of elements in array
+
+🧪 Multidimensional arrays
+----------------------------
+
+var matrix [2][3]int = [2][3]int{
+	{1, 2, 3},
+	{4, 5, 6},
+}
+fmt.Println(matrix[1][2]) // → 6
+
+😅 Wait, but arrays are fixed size?
+
+Yes! That’s why in real Go projects, devs usually prefer slices (like flexible arrays). But it’s important to understand arrays first — slices are built on top of arrays.
+
+If you want, I can explain slices next — they are your dynamic, growable array buddies 🔥
+
+
+
+
+
+
+
+
+
