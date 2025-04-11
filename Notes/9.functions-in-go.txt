@@ -1,0 +1,182 @@
+🧠 What is a function in Go?
+==============================
+
+A function is a reusable block of code that does something — like printing, calculating, or making you coffee (well, not literally ☕).
+
+
+✅ Basic Function Structure
+----------------------------
+
+package main
+
+import "fmt"
+
+func sayHello() {
+	fmt.Println("Hello from function!")
+}
+
+func main() {
+	sayHello() // calling the function
+}
+
+
+
+1. func = keyword to define a function
+
+2. sayHello() = function name (your own name)
+
+3. main() = the first function that always runs
+
+📦 Function With Parameters
+------------------------------
+
+You can send values to a function!
+
+func greet(name string) {
+	fmt.Println("Hello", name)
+}
+
+func main() {
+	greet("Eliana")
+	greet("Vivienne")
+}
+
+
+➕ Function With Return Value
+-------------------------------
+
+Functions can also return a result, like a calculator.
+
+func add(x int, y int) int {
+	return x + y
+}
+
+func main() {
+	result := add(5, 7)
+	fmt.Println("Sum is", result)
+}
+
+
+You tell Go what type you're giving (int) and what you're getting back (int again).
+
+🔁 Multiple Return Values
+--------------------------
+
+Go lets you return more than one thing. It’s kinda cool.
+
+func divide(a int, b int) (int, int) {
+	quotient := a / b
+	remainder := a % b
+	return quotient, remainder
+}
+
+func main() {
+	q, r := divide(10, 3)
+	fmt.Println("Quotient:", q, "Remainder:", r)
+}
+
+⚠️ Named Return Values
+-------------------------
+
+You can name the return values to make it clearer.
+
+func getName() (firstName string, lastName string) {
+	firstName = "Eliana"
+	lastName = "Vivienne"
+	return
+}
+
+
+🔄 Variadic Functions
+----------------------
+
+Sometimes you don’t know how many values you’ll get — like arguments. So Go gives you ...
+
+func sum(nums ...int) int {
+	total := 0
+	for _, num := range nums {
+		total += num
+	}
+	return total
+}
+
+func main() {
+	fmt.Println(sum(1, 2, 3, 4)) // Output: 10
+}
+
+
+🔒 Function Inside a Function (Kinda)
+---------------------------------------
+
+Go doesn’t allow functions inside functions directly, but you can create anonymous functions (functions without names) inside another:
+
+
+func main() {
+	func() {
+		fmt.Println("Anonymous function!")
+	}()
+
+	// or assign it to a variable
+	sayHi := func(name string) {
+		fmt.Println("Hi", name)
+	}
+	sayHi("Ella")
+}
+
+Q: cant i write function inside main method? if can hat is difference between writing a function inside the main function and outside the main function?
+
+A: 
+
+❓Can You Write a Function Inside the main() Function in Go?
+
+✅ Yes! But only anonymous functions (functions without a name).
+
+Here’s how it looks:
+
+package main
+
+import "fmt"
+
+func main() {
+	// anonymous function
+	func() {
+		fmt.Println("I'm inside the main function!")
+	}()
+
+	// OR assign it to a variable
+	sayHello := func(name string) {
+		fmt.Println("Hello", name)
+	}
+
+	sayHello("Eliana")
+}
+
+
+You CANNOT write a named function inside main() like this:
+
+func main() {
+	// ❌ This is NOT allowed
+	func greet() {
+		fmt.Println("Hi")
+	}
+}
+
+Go will throw an error like:
+
+syntax error: unexpected func, expecting expression
+
+🤔 So What's the Difference?
+Feature			Inside main() (Anonymous)			Outside main() (Named)
+------------------------------------------------------------------------------------------------------
+✅ Allowed			Yes						Yes
+🧠 Has a name			No (unless assigned to variable)		Yes
+🔁 Reusable			Only within main()				Anywhere in the package
+📦 Used for			Small, one-off tasks				Bigger logic, reusable stuff
+📚 Good for learning		Yes						Yes
+
+
+
+
+ 
+
+
