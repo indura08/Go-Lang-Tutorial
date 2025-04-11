@@ -1,0 +1,138 @@
+🧱 What is a struct in Go?
+---------------------------
+
+A struct (short for “structure”) is like a blueprint or a box where you can group different pieces of data (called fields) that belong together.
+
+In other languages like Java or C#, it's kinda like a class with only variables — no methods (unless you attach them later).
+
+🧒 Real-Life Analogy
+-----------------------
+
+Let’s say you're describing a Person. A person has:
+
+a name (string)
+
+an age (int)
+
+a job title (string)
+
+Instead of keeping 3 separate variables, you can just make a struct to hold all of them in one place!
+
+Example:
+
+package main
+
+import "fmt"
+
+// Step 1: Create a struct
+type Person struct {
+    name     string
+    age      int
+    jobTitle string
+}
+
+func main() {
+    // Step 2: Create a value of that struct
+    var p1 Person
+    p1.name = "Eliana"
+    p1.age = 25
+    p1.jobTitle = "Software Engineer"
+
+    fmt.Println("Name:", p1.name)
+    fmt.Println("Age:", p1.age)
+    fmt.Println("Job Title:", p1.jobTitle)
+}
+
+🛠️ Alternate (and cooler) way to assign values
+-----------------------------------------------
+
+You can also use shorthand syntax when creating a struct:
+
+p2 := Person{name: "Vivienne", age: 22, jobTitle: "Data Analyst"}
+fmt.Println(p2)
+
+🕵️ Accessing values
+---------------------
+
+Just use dot . notation like:
+
+p2.name     // "Vivienne"
+p2.age      // 22
+
+🔍 Can structs be inside other structs?
+-----------------------------------------
+
+Heck yes! Like this:
+
+type Address struct {
+    city    string
+    country string
+}
+
+type Employee struct {
+    name    string
+    age     int
+    address Address
+}
+
+Then:
+
+emp := Employee{
+    name: "Elly",
+    age:  28,
+    address: Address{
+        city:    "Colombo",
+        country: "Sri Lanka",
+    },
+}
+fmt.Println(emp.address.city)
+
+
+
+Diffreneces of maps and structs:
+------------------------------------
+
+🗺️ Map
+--------
+
+Key-value pairs where keys are dynamic (you choose them at runtime).
+
+Useful when you don't know the exact field names ahead of time.
+
+Example:
+
+person := map[string]string{
+    "name": "Eliana",
+    "job": "Engineer",
+}
+
+
+🧱 Struct
+----------
+
+A fixed blueprint with known field names (set at compile time).
+
+Useful when you want a strongly-typed, well-defined structure.
+
+Example:
+
+type Person struct {
+    name string
+    job  string
+}
+
+💥 In one line:
+----------------
+
+🔑 Use a map when you need flexibility, use a struct when you need structure and type safety.
+
+Let me know if you want a fun side-by-side code comparison too! 😄
+
+
+
+
+
+
+
+
+
