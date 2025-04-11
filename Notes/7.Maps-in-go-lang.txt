@@ -1,0 +1,75 @@
+🗺️ What is a Map?
+-----------------
+
+A map in Go is just like a dictionary in Python or HashMap in Java/C#.
+
+It stores data in key-value pairs.
+
+Think of it like a phonebook:
+
+🔑 Name → ☎️ Phone number
+"Eliana" → "0771234567"
+
+
+🛠️ How to Create a Map
+-----------------------
+
+1. Create and add data at once
+
+person := map[string]string{
+	"name": "Eliana",
+	"city": "Colombo",
+}
+
+map[string]string means:
+
+	keys are string
+
+	values are also string
+	
+2. Create empty map and add values later
+
+person := make(map[string]string)
+person["name"] = "Eliana"
+person["city"] = "Colombo"
+
+🔍 Accessing values
+
+fmt.Println(person["name"]) // prints: Eliana
+
+❌ Accessing a key that doesn’t exist?
+
+fmt.Println(person["age"]) // prints: (blank string)
+
+To check if a key exists:
+
+value, exists := person["age"]
+if exists {
+	fmt.Println("Age is:", value)
+} else {
+	fmt.Println("No age found")
+}
+
+❌ Delete a key
+
+delete(person, "city")
+
+
+🔁 Loop through a map
+
+for key, value := range person {
+	fmt.Println("Key:", key, "Value:", value)
+}
+
+📏 Get length of a map
+
+fmt.Println(len(person)) // number of key-value pairs
+
+
+
+
+
+
+
+
+
