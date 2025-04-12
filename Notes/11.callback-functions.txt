@@ -1,0 +1,46 @@
+🧠 What is a Callback Function?
+_______________________________
+
+A callback function is just a function you pass as an argument to another function, and it gets called back (executed) later inside that function.
+
+Basically:
+
+“Hey, take this function and call it when you’re ready.”
+
+🧪 Example:
+------------
+
+package main
+
+import "fmt"
+
+// 🔁 This is the callback function
+func greet(name string) {
+	fmt.Println("Hello", name)
+}
+
+// 🧠 This is the function that takes another function as a parameter
+func sayHiLater(callback func(string)) {
+	fmt.Println("Doing some stuff first...")
+	callback("Eliana")
+}
+
+func main() {
+	sayHiLater(greet) // Passing 'greet' as a callback
+}
+
+
+🔍 Breakdown:
+-------------
+
+greet(name string) is a normal function.
+
+sayHiLater(callback func(string)) means:
+👉 "I expect a function that takes a string."
+
+Inside sayHiLater, we call the callback with "Eliana".
+
+The output will be:
+
+
+
