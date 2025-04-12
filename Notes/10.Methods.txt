@@ -1,0 +1,71 @@
+✅ What is a Method in Go?
+_____________________________
+
+A method is a function that is attached to a type (usually a struct). So it's like saying:
+
+“Hey Person, you have your own function called sayHello.”
+
+Here's how it looks:
+
+package main
+
+import "fmt"
+
+// Struct
+type Person struct {
+	name string
+}
+
+// Method attached to Person
+func (p Person) sayHello() {
+	fmt.Println("Hi, my name is", p.name)
+}
+
+func main() {
+	p1 := Person{name: "Eliana"}
+	p1.sayHello() // calling method
+}
+
+🧠 So What’s the Difference Between Function and Method?
+----------------------------------------------------------
+
+Feature				Function			Method
+======================================================================================
+
+Attached to		Nothing (just floats around)		A type (like struct)
+Receiver?		❌ No					✅ Yes
+Call style		greet("Eliana")	p			erson.sayHello()
+OOP feel?		Not really				Closer to object-style
+
+🍛 Example with Both:
+------------------------
+
+type Cat struct {
+	name string
+}
+
+// Method
+func (c Cat) meow() {
+	fmt.Println(c.name, "says Meow!")
+}
+
+// Function
+func feed(catName string) {
+	fmt.Println("Feeding", catName)
+}
+
+func main() {
+	myCat := Cat{name: "Mittens"}
+
+	myCat.meow()      // Method
+	feed(myCat.name)  // Function
+}
+
+🔥 Fun fact:
+______________
+
+Go doesn’t have classes, but methods on structs are how Go does object-oriented-ish stuff. It’s simple, clean, and powerful like a ninja in flip-flops.
+
+Want to go next level with pointer receivers or interfaces? Or maybe try a mini challenge with a method?
+
+

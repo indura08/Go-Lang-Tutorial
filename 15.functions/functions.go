@@ -63,6 +63,7 @@ func OuterFunc(name string) int {
 }
 
 func main() {
+	//main method eka athule liynna bha named funtion, liynna puluwan function expressions withri
 
 	sayHello()
 	sayHelloWithName("Indura perera")
@@ -82,4 +83,20 @@ func main() {
 	//function inside function
 	var chars int = OuterFunc("Indura")
 	fmt.Println(chars)
+
+	//function expressions
+	add := func(x int, y int) int {
+		z := x + y
+		return z
+	}
+
+	fmt.Println(add(23, 32))
+
+	//anonymous functions
+	var total int = func(a int, b int) int {
+		return a + b
+	}(12, 41)
+
+	fmt.Println("anonymous function's result is:", total)
+
 }
