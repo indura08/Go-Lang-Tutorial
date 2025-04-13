@@ -1,0 +1,93 @@
+🧠 What is defer?
+------------------
+
+defer is a Go keyword that delays the execution of a function until just before the surrounding function returns.
+
+🤔 Why use defer?
+==================
+
+It’s commonly used for:
+
+Cleaning up resources (like closing files, network connections, database stuff)
+
+Ensuring something always runs, no matter what happens in the rest of the function
+
+
+🧪 Simple Example
+==================
+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Start")
+
+    defer fmt.Println("This runs last")
+
+    fmt.Println("Middle")
+}
+
+
+🧾 Output:
+
+Start
+Middle
+This runs last
+
+
+🔍 See what happened?
+
+Start runs first.
+
+Then we hit the defer line, but it doesn't run immediately.
+
+Middle runs next.
+
+Then defer finally kicks in when main() is about to finish.
+
+🔁 Multiple Defers: LIFO (Last In, First Out)
+==============================================
+
+func main() {
+    defer fmt.Println("One")
+    defer fmt.Println("Two")
+    defer fmt.Println("Three")
+}
+
+output
+
+Three
+Two
+One
+
+* 😄 Defer works like a stack — the last one you defer is the first to be executed.
+
+
+🧹 Real-World Example: Cleaning Up
+-----------------------------------
+
+file, err := os.Open("data.txt")
+if err != nil {
+    log.Fatal(err)
+}
+defer file.Close()
+// do stuff with file
+
+
+Even if your code crashes later, file.Close() will still run when the function ends. That’s why defer is great for cleanup.
+
+⚠️ Gotchas
+============
+
+The arguments in a deferred function are evaluated immediately, but the function call is delayed.
+
+func main() {
+    x := 10
+    defer fmt.Println(x) // prints 10
+    x = 20
+}
+
+Even though x = 20 happens after the defer, it still prints 10 because the value was locked in at the time of defer.
+
+
