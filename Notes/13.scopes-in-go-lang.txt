@@ -1,0 +1,93 @@
+🧐 What is a Scope?
+--------------------
+
+In programming, scope means:
+
+"Where can I use this variable?"
+
+It’s about where a variable lives — where it can be seen, accessed, or modified.
+
+
+🔍 Types of Scope in Go (with Examples)
+----------------------------------------
+
+1. Package Scope (Global-ish)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you declare a variable outside of any function, it can be used anywhere in the same package.
+
+package main
+
+import "fmt"
+
+var message = "Hello from outside!" // package scope
+
+func greet() {
+    fmt.Println(message) // You can use it here!
+}
+
+func main() {
+    greet()
+    fmt.Println(message) // Also accessible here!
+}
+
+
+✅ message is visible in all functions in this file.
+
+2. Function Scope (Local)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you declare a variable inside a function, you can only use it inside that function.
+
+func sayHello() {
+    name := "Alice" // function scope
+    fmt.Println("Hello", name)
+}
+
+func main() {
+    sayHello()
+    // fmt.Println(name) // ❌ ERROR: name is not defined here!
+}
+
+You can't access name in main() because it was created inside sayHello().
+
+3. Block Scope (Tiny local zones)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A block is any code inside { }, like inside if, for, switch, etc.
+
+func main() {
+    if true {
+        age := 25 // block scope
+        fmt.Println(age) // ✅ Works here
+    }
+    // fmt.Println(age) // ❌ ERROR: age is not defined here
+}
+
+
+🧠 Why Scopes Matter?
+----------------------
+
+Helps you avoid accidentally using the wrong variable
+
+Keeps code organized and clean
+
+Prevents bugs where variables interfere with each other
+
+
+💡 Bonus Tip: Shadowing
+------------------------
+
+If you declare a variable with the same name in a smaller scope, it will hide the outer one.
+
+var name = "Outer"
+
+func main() {
+    name := "Inner"
+    fmt.Println(name) // Prints: Inner (not Outer)
+}
+
+This is called shadowing — like hiding something in the shadows.
+
+
+
