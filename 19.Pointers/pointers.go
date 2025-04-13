@@ -36,5 +36,10 @@ func main() {
 	fmt.Println("Value of the number3 variable is before changing using pointer :", number3)
 	changeValue(&number3)
 	fmt.Println("Value of the number3 variable is after changing using pointer :", number3)
+	fmt.Println("Address of the number3 variable is :", &number3)
+
+	//pointere varibale ekk name krna widiya
+	var pointerVariable *int = &number3
+	fmt.Println("Value of the pointerVariable is :", pointerVariable)
 
 }
