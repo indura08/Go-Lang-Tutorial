@@ -1,0 +1,201 @@
+🍵 What is panic?
+-------------------
+
+In Go, panic is like saying:
+
+“Uh oh, something really bad just happened! I give up! Crash the program now!”
+
+When panic() is called:
+
+Your program stops running (like a crash).
+
+It prints an error message.
+
+Then, it unwinds (goes back through) all the functions that were called — like backtracking — and ends the program.
+
+🧠 When do we use panic?
+--------------------------
+
+Only in serious situations, such as:
+
+A problem you can’t recover from.
+
+Something unexpected happens.
+
+A function is misused.
+
+Example: A file you MUST have is missing? You might panic.
+
+
+✨ Basic Example
+------------------
+
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Starting...")
+
+	panic("Something went terribly wrong!")
+
+	fmt.Println("This won't be printed") // never runs!
+}
+
+Output:
+
+Starting...
+panic: Something went terribly wrong!
+
+... (stack trace)
+
+🎯 Realistic Example: Divide by Zero
+------------------------------------
+
+package main
+
+import "fmt"
+
+func divide(a, b int) int {
+	if b == 0 {
+		panic("You can't divide by zero!")
+	}
+	return a / b
+}
+
+func main() {
+	fmt.Println(divide(10, 2))  // prints 5
+	fmt.Println(divide(5, 0))   // panics here!
+}
+
+
+🔄 Can I catch panic?
+-----------------------
+
+Yes! With a magical tool called recover() — but that’s a whole other topic.
+
+Basically:
+
+panic() crashes your program.
+
+But recover() (when used inside a special function called defer) can save your program from crashing.
+
+Wanna go into that too? 😊
+
+
+Q: so is this panic function like try catch in c# and java ? but java and c# does not end the program from the try block , is that the only difference?
+
+A: You’re 100% on the right track! 🌟 Let’s compare panic in Go with try-catch in C# and Java — in simple terms:
+
+
+🥊 Go panic vs Java/C# try-catch
+-------------------------------------
+
+Feature			Go panic					Java/C# try-catch
+-------------------------------------------------------------------------------------------------------------------------------------
+Purpose			Handles serious errors				Handles recoverable errors
+Default Behavior	Stops the whole program 🚨			Keeps running the program ✅
+Recovery?		Needs recover() + defer				Uses catch block easily
+Intended use case	Unexpected bugs, crash-worthy stuff		Common errors like file not found, divide by zero, etc.
+Error object		Any value can be panicked (often a string)	Usually an Exception object
+Crash default?		Yes 💥						No
+
+🛑 What is recover()?
+-----------------------
+
+recover() is a special Go function.
+
+It stops a panic from crashing your program.
+
+It can only be used inside a defer function.
+
+Think of it like a trampoline 🏀 — panic() throws you up, but recover() catches you so you don’t hit the ground.
+
+🧪 Basic Example of panic + recover
+------------------------------------
+
+package main
+
+import "fmt"
+
+func safeFunction() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered from panic:", r)
+		}
+	}()
+
+	fmt.Println("About to panic...")
+	panic("Something went wrong!") // triggers panic
+	fmt.Println("This will not run") // gets skipped
+}
+
+func main() {
+	safeFunction()
+	fmt.Println("Program continues normally 👌")
+}
+
+in this code the lines:
+
+	if r := recover(); r != nil {
+	fmt.Println("Recovered from panic:", r)
+	
+	}
+	
+what does it do?
+----------------
+
+This line is doing three things at once:
+
+	1. It calls the recover() function.
+
+	2. It stores the return value of recover() into a new variable called r.
+
+	3. It checks if r is not nil (which means a panic actually happened).
+
+
+🧾 Let’s dissect it part-by-part:
+----------------------------------
+
+1. ✅ r := recover()
+This means:
+
+"Run recover() and store the result in a variable named r."
+
+If no panic happened, recover() returns nil.
+
+If a panic did happen, recover() returns the panic message or value you passed to panic() (like "Something went wrong!").
+
+2. ✅ if r != nil
+
+We're saying:
+
+"If the panic was caught (meaning r is not nil), then handle it."
+
+
+🤯 Still confused? Here’s a step-by-step mini version:
+--------------------------------------------------------
+
+defer func() {
+	// step 1: recover from a panic
+	r := recover()
+
+	// step 2: check if there was a panic
+	if r != nil {
+		fmt.Println("Recovered from panic:", r)
+	}
+}()
+
+Now the shorthand version:
+
+defer func() {
+	if r := recover(); r != nil {
+		fmt.Println("Recovered from panic:", r)
+	}
+}()
+
+
+
+
+
+
