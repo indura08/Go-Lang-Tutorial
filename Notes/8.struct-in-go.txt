@@ -129,9 +129,54 @@ type Person struct {
 Let me know if you want a fun side-by-side code comparison too! 😄
 
 
+Q: cant we add functions inside a struct? like we add methods inside a class in c# or java?
+
+A: ❓ Can we add functions inside a struct in Go?
+❌ No, you cannot define functions inside a struct like you do in a class in C# or Java.
 
 
+🧠 But... how does Go handle this then?
+In Go, we add methods to a struct outside the struct, by using something called a receiver.
 
+🔧 Example:
+
+package main
+
+import "fmt"
+
+// 1. Define a struct
+type Person struct {
+	name string
+	age  int
+}
+
+// 2. Add a method to Person (outside the struct)
+func (p Person) SayHello() {
+	fmt.Println("Hi, my name is", p.name, "and I'm", p.age, "years old.")
+}
+
+func main() {
+	p := Person{name: "Kamal", age: 30}
+	p.SayHello() // Calling the method
+}
+
+💡 What's going on?
+---------------------
+
+func (p Person) SayHello() is a method on the Person struct.
+
+(p Person) is the receiver — this is how Go says “this function belongs to Person”.
+
+It’s similar to writing public void SayHello() inside a class in C#.
+
+🔁 What if I want to modify the struct inside the method?
+Use a pointer receiver:
+
+func (p *Person) Birthday() {
+	p.age++
+}
+
+Now p.age will actually be changed because we're using a pointer.
 
 
 

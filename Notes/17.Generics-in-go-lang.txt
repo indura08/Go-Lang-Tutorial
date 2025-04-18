@@ -1,0 +1,94 @@
+🧠 What are Generics?
+----------------------
+
+🔸 Simple definition:
+Generics let you write functions, types, or data structures that work with any type, without writing the same logic over and over again.
+
+💥 Why would you even use generics?
+-------------------------------------
+
+Without generics, you'd do stuff like:
+
+func PrintInt(val int) {
+    fmt.Println(val)
+}
+
+func PrintString(val string) {
+    fmt.Println(val)
+}
+
+And that’s just for two types. Imagine needing one for float64, bool, Person, Banana... 😵
+
+Generics = write once, use for all types.
+
+✅ Here's a generic version of Print:
+
+func PrintAnything[T any](val T) {
+    fmt.Println(val)
+}
+
+Let’s explain that 🔍
+
+🧩 T = Type parameter (you can name it anything, but T is common)
+🧩 any = a special keyword that means "any type"
+🧩 [T any] = this is how you say: “This function uses a generic type T which can be anything.”
+
+Usage:
+
+PrintAnything(42)
+PrintAnything("hello")
+PrintAnything(true)
+
+All of these work! Because T becomes int, string, bool, etc. dynamically.
+
+🧪 Let's try a generic function that returns the first item of any slice:
+
+func First[T any](items []T) T {
+    return items[0]
+}
+
+Usage:
+
+fmt.Println(First([]int{1, 2, 3}))         // Output: 1
+fmt.Println(First([]string{"a", "b"}))     // Output: "a"
+
+🎯 You can even use constraints
+-------------------------------------
+
+Say you want to make a function that adds two numbers.
+// First, import constraints
+import "golang.org/x/exp/constraints"
+
+// Add only works with numeric types
+func Add[T constraints.Ordered](a, b T) T {
+    return a + b
+}
+
+Now this will work for int, float, string (yes, + for strings is allowed), but not for custom types like struct.
+
+🧱 Generic Struct Example
+---------------------------
+
+You can also use generics in structs!
+
+type Box[T any] struct {
+    value T
+}
+
+func (b Box[T]) Get() T {
+    return b.value
+}
+
+func main() {
+    intBox := Box[int]{value: 100}
+    fmt.Println(intBox.Get()) // 100
+
+    stringBox := Box[string]{value: "GoLang"}
+    fmt.Println(stringBox.Get()) // GoLang
+}
+
+
+
+
+
+
