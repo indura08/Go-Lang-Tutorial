@@ -1,0 +1,386 @@
+🧠 What Are Channels in Go?
+------------------------------
+
+Think of channels like pipes or mailboxes that let goroutines send messages to each other.
+
+Imagine two friends writing notes to each other using a pipe.
+
+One writes a note and puts it in the pipe.
+
+The other waits for the note to arrive at their end.
+
+In Go, a channel lets you do exactly that — send data between goroutines.
+
+
+📦 How to Create a Channel
+-----------------------------
+
+ch := make(chan int) // A channel that sends/receives integers
+
+chan int means: this channel carries int values.
+
+make is used to initialize it (like creating a new slice or map).
+
+📤 Sending to a Channel
+------------------------
+
+ch <- 5
+
+This means:
+
+"Send the number 5 into the channel ch."
+
+📥 Receiving from a Channel
+-----------------------------
+value := <-ch
+
+This means:
+
+"Wait and receive a value from the channel, then store it in value."
+
+📦 Full Simple Example
+-----------------------
+
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan string)
+
+	go func() {
+		ch <- "Hello from goroutine!"
+	}()
+
+	msg := <-ch
+	fmt.Println(msg)
+}
+
+What’s Happening:
+------------------
+
+We make a channel ch.
+
+We start a goroutine that sends a message into ch.
+
+The main() function waits and receives the message from ch.
+
+output:
+
+Hello from goroutine!
+
+
+🧨 Important Notes:
+---------------------
+
+1. Channels block by default
+When you send or receive from a channel:
+
+The code waits (or blocks) until the other side is ready.
+
+✅ This is good — it keeps goroutines in sync.
+
+ch := make(chan int)
+
+go func() {
+    fmt.Println("Sending...")
+    ch <- 10
+    fmt.Println("Sent!") // This line won't run until someone receives
+}()
+
+value := <-ch
+fmt.Println("Received:", value)
+
+
+🧺 Buffered Channels
+---------------------
+Sometimes you want a channel that can hold multiple values without blocking immediately.
+ch := make(chan int, 3) // can hold 3 values at once
+
+ch <- 1
+ch <- 2
+ch <- 3
+
+// ch <- 4 // 🚫 This will block because it's full
+
+❌ Closing a Channel
+---------------------
+
+Once you're done sending data, close the channel so receivers know there's no more data coming.
+
+close(ch)
+
+When you range over a channel, closing it lets the loop end:
+
+ch := make(chan int)
+
+go func() {
+	for i := 1; i <= 5; i++ {
+		ch <- i
+	}
+	close(ch)
+}()
+
+for num := range ch {
+	fmt.Println(num)
+}
+
+
+Unbufferd and buffered channels
+======================================
+
+🧪 1. Unbuffered Channels (default)
+-------------------------------------
+
+🔍 What is it?
+An unbuffered channel has no storage — it can only hold one value at a time, and even that temporarily.
+
+🎯 Both sender and receiver must be ready at the same time — otherwise, they wait for each other.
+
+📦 Analogy: Hand-to-Hand Delivery
+Imagine you're passing a note to a friend, but your friend has to be there to take it — or else you just stand there awkwardly holding it.
+
+You can't move on until the friend takes the note.
+
+Your friend can't move on until they get the note.
+
+📜 Example:
+
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan string) // unbuffered
+
+	go func() {
+		ch <- "Hello!" // waits until main() receives it
+	}()
+
+	msg := <-ch // waits until something is sent
+	fmt.Println(msg)
+}
+
+
+🗃️ 2. Buffered Channels
+------------------------
+
+🔍 What is it?
+A buffered channel has a capacity — it can hold multiple values without needing a receiver right away.
+
+🎯 The sender can send up to N items into the channel without blocking, until the buffer is full.
+
+📦 Analogy: Mailbox with Slots
+You’re writing letters and putting them into a mailbox that holds 3 letters.
+
+You can write and drop 3 letters without your friend picking them up.
+
+But if you write a 4th letter, you must wait until your friend picks one up.
+
+📜 Example:
+
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan string, 2) // buffered with size 2
+
+	ch <- "Message 1" // goes in immediately
+	ch <- "Message 2" // goes in immediately
+	// ch <- "Message 3" // 🚫 This line would block if uncommented
+
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+}
+
+⚖️ Comparison Table
+
+Feature				Unbuffered Channel				Buffered Channel
+----------------------------------------------------------------------------------------------------------------------
+Blocking behavior		Sender waits for receiver			Sender only waits if full
+Created with			make(chan int)					make(chan int, 3)
+Capacity			0						N (your choice)
+Sync between goroutines		Required					Not immediately required
+Use case			Tight sync, safe handoff			Faster sending, less waiting
+
+
+
+Great error enocuntered refer this defa :
+
+Q: package main
+
+import "fmt"
+
+// 1.exmaple normal channel := passing and value and recieiving an value
+func SendData(ch chan<- int) {
+	ch <- 20
+}
+
+// 2.example - buffered channels i created
+func ChannelFunc1(ch chan<- string) {
+	ch <- "Hello form 1st channel function"
+}
+
+func ChannelFunc2(ch chan<- string) {
+	ch <- "Hello form 2nd channel function"
+}
+
+func ChannelFunc3(ch chan<- string) {
+	ch <- "Hello form 3rd channel function"
+}
+
+func main() {
+	// ch := make(chan int)
+	// go SendData(ch)
+
+	// value := <-ch
+	// fmt.Println("Value received from channel is:", value)
+
+	//2nd example buffered channels
+
+	ch := make(chan string, 3)
+
+	go ChannelFunc1(ch)
+	go ChannelFunc2(ch)
+	go ChannelFunc3(ch)
+
+	//fmt.Println("Value received from channel is:", <-ch)
+
+	for message := range ch {
+		fmt.Println("Value received from channel is:", message)
+	}
+} okay now for this code this is the output : Value received from channel is: Hello form 3rd channel function
+Value received from channel is: Hello form 1st channel function
+Value received from channel is: Hello form 2nd channel function
+fatal error: all goroutines are asleep - deadlock!
+
+goroutine 1 [chan receive]:
+main.main()
+        /home/indura08/go-lang-tutorial/Go-Lang-Tutorial/24.Channels/channles.go:40 +0x166
+exit status 2
+indura08@indura08-Inspiron-5593:~/go-lang-tutorial/Go-Lang-Tutorial/24.Channels$ ^C
+indura08@indura08-Inspiron-5593:~/go-lang-tutorial/Go-Lang-Tutorial/24.Channels$  
+
+how this will be a deadlock please explain in simpler terms?
+
+A: 
+
+This line is saying:
+
+"Hey Go, keep pulling values from ch until the channel is closed."
+
+🧠 But here's the problem:
+---------------------------
+
+You never close the channel using close(ch).
+
+So Go thinks:
+
+“More values might still come... I’ll just wait... forever... 💤”
+But nothing comes. All sending is done.
+Main goroutine gets stuck waiting = deadlock ❌
+
+📦 Buffered Channels Don't Auto-Close!
+----------------------------------------
+
+Even though you created a buffered channel and filled it with 3 values using goroutines:
+
+ch := make(chan string, 3)
+go ChannelFunc1(ch)
+go ChannelFunc2(ch)
+go ChannelFunc3(ch)
+
+You did not close the channel, so when the for-loop tries to read the 4th value... it just hangs 🧍‍♂️🧍‍♀️... forever... waiting...
+
+✅ Fix: Close the channel after all sending is done
+
+func main() {
+	ch := make(chan string, 3)
+
+	go ChannelFunc1(ch)
+	go ChannelFunc2(ch)
+	go ChannelFunc3(ch)
+
+	// Give goroutines time to finish before closing (just for demo, not best practice)
+	// time.Sleep(1 * time.Second)
+
+	// Close the channel manually AFTER all goroutines send data
+	// A better way is using sync.WaitGroup, but for now:
+	// 💡 Let's wait a tiny moment and then close
+	// BUT safest way (see below) is to use WaitGroup
+
+	// BAD HACKY WAY (DON'T USE IN REAL CODE):
+	// close(ch)  // ❌ Don't close it here too early! You might close it before goroutines send!
+
+	// ✅ SAFEST FIX — WaitGroup (Better approach below)
+}
+
+✅ Final Solution: Use sync.WaitGroup + close()
+
+
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func ChannelFunc(msg string, ch chan<- string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	ch <- msg
+}
+
+func main() {
+	ch := make(chan string, 3)
+	var wg sync.WaitGroup
+
+	wg.Add(3)
+
+	go ChannelFunc("Hello from 1st channel function", ch, &wg)
+	go ChannelFunc("Hello from 2nd channel function", ch, &wg)
+	go ChannelFunc("Hello from 3rd channel function", ch, &wg)
+
+	go func() {
+		wg.Wait()
+		close(ch) // ✅ Now we're telling Go "we’re done sending!"
+	}()
+
+	for message := range ch {
+		fmt.Println("Value received from channel is:", message)
+	}
+}
+
+Q: go func() {
+		wg.Wait()
+		close(ch) // ✅ Now we're telling Go "we’re done sending!"
+	}() in here why is it using another go routine function instead of writing wg.wait() and close.sh without a function
+
+A: 
+
+🔄 The Problem: range ch blocks the main() goroutine
+If you do this:
+
+for msg := range ch {
+	fmt.Println(msg)
+}
+
+This runs in main(), and it will block — meaning it takes over the thread and won’t continue to the next lines until the loop ends.
+
+❌ So if you write this after:
+
+wg.Wait()
+close(ch)
+
+That part never runs, because main() is still stuck in the for-range loop, waiting for the channel to close!
+
+🥁 Deadlock again!
+
+✅ The Fix: Run wg.Wait() + close(ch) in a separate goroutine
+That way, while the main() goroutine is looping over the channel and printing values...
+
+👉 another goroutine is patiently waiting for WaitGroup to finish 👉 then it calls close(ch) to break the loop in main()
+
+
+
+
