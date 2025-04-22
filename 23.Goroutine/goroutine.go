@@ -21,7 +21,7 @@ func count(n string) {
 
 // 3.waitgropup exmaple
 func SayHello(wg *sync.WaitGroup) {
-	defer wg.Done()
+	defer wg.Done() //defer daannama one mokda defer ekn krnne monaw hari function ekk anik function okkoma iwar wenkn inna eka , mekedith ekama wenna one
 	fmt.Println("Hello from say hello function which is a memeber og waitgroup")
 	for i := 1; i <= 5; i++ {
 		fmt.Println("value of i is :", i)
