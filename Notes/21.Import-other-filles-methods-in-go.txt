@@ -1,0 +1,165 @@
+🎯 Scenario:
+-------------
+
+You have A.go with two functions: MethodA and MethodB.
+
+You have another file B.go and you want to use those methods from A.go.
+
+✅ Go Equivalent:
+
+Go has no classes, but it has packages, structs, and functions.
+
+And here’s the cool part: If A.go and B.go are in the same package, then all you have to do is:
+
+Make sure your functions are exported (start with a capital letter)!
+
+🔧 Example
+🧾 A.go
+
+package main
+
+import "fmt"
+
+func MethodA() {
+	fmt.Println("This is Method A from A.go")
+}
+
+func MethodB() {
+	fmt.Println("This is Method B from A.go")
+}
+
+
+🧾 B.go
+
+package main
+
+func main() {
+	MethodA()
+	MethodB()
+}
+
+
+✅ This works because:
+
+Both files are in the same package main
+
+Functions are exported by starting with uppercase letters
+
+
+🔁 Now what if A.go is in a different package?
+--------------------------------------------------
+
+Let’s say you want a cleaner structure like:
+
+project/
+│
+├── main.go          ← wants to use methods
+├── utils/
+│   └── a.go         ← contains MethodA and MethodB
+
+
+🧾 utils/a.go
+
+package utils
+
+import "fmt"
+
+func MethodA() {
+	fmt.Println("Method A from utils package")
+}
+
+func MethodB() {
+	fmt.Println("Method B from utils package")
+}
+
+
+🧾 main.go
+
+package main
+
+import (
+	"yourproject/utils"
+)
+
+func main() {
+	utils.MethodA()
+	utils.MethodB()
+}
+
+🧠 Key Rule:
+
+Use package X to group code in a file
+
+Use import "X" in another file to access that code
+
+Exported names must be capitalized (public)
+
+
+Q: 
+okay im just confused with this package main line, what is meant by main, is it has to be main all the time, cant i define my packages in go lang?
+
+
+A:
+Great question! And yep — this is one of those things that seems confusing at first, but once it clicks, it makes a lot of sense. Let’s break it down super simply 👇
+
+🧠 What is package main in Go?
+
+In Go, every file starts with a package declaration.
+
+package main is special.
+
+It tells Go: “Hey, this is the entry point of the application. Start running here.”
+
+If you're building an executable app (something that runs like go run main.go), then:
+
+✅ Your main file must use package main
+✅ It must contain a function called func main()
+
+📦 So... can I define my own packages?
+Absolutely! 🎉
+You can and should define your own packages to organize your code better.
+
+Let’s say you have a file:
+
+🧾 mathutils/math.go
+
+package mathutils
+
+import "fmt"
+
+func Add(a, b int) int {
+	return a + b
+}
+
+func PrintMessage() {
+	fmt.Println("Hello from mathutils!")
+}
+
+Now in your main.go, you do:
+
+🧾 main.go
+
+package main
+
+import (
+	"fmt"
+	"yourproject/mathutils" // <- use your module path here
+)
+
+func main() {
+	sum := mathutils.Add(5, 7)
+	fmt.Println("Sum is:", sum)
+	mathutils.PrintMessage()
+}
+
+
+So yes — you can name packages however you like (e.g., mathutils, models, services, handlers, etc.), as long as they’re not your entry point.
+
+
+
+
+
+
+
+
+
