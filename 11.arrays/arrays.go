@@ -6,6 +6,10 @@ func main() {
 	var nums [12]int
 
 	for i := 0; i < len(nums); i++ {
+		fmt.Println(nums[i])
+	}
+
+	for i := 0; i < len(nums); i++ {
 		nums[i] = i
 	}
 
