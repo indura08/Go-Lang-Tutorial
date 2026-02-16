@@ -217,9 +217,37 @@ When you want to write functions that work on anything with specific behavior
 To make code more flexible and testable
 
 
+🔹 Why This Is Actually Powerful
+----------------------------------
+
+In Java:
+
+The type must explicitly declare it implements the interface.
+
+The dependency direction is fixed.
+
+In Go:
+
+The interface does NOT care who implements it.
+
+The implementing type does NOT care about the interface.
+
+This creates loose coupling.
+
+Very powerful for large systems.
 
 
+🔹 Why It Feels Weird to You
+------------------------------
 
+Because you’re thinking:
 
+Interface belongs to the class.
+
+In Go:
+
+Interface belongs to the behavior the caller needs.
+
+This is reversed thinking.
 
 
