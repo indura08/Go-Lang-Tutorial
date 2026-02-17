@@ -47,4 +47,6 @@ func main() {
 	wg.Wait() //wait for all go routines
 	fmt.Println("Main function is done")
 
+	//memekdi aththtama wg walt thiynne methods 3 i : wait, add, and done withri e set ekn thami game ek ghaganne
+
 }
