@@ -236,6 +236,15 @@ It works with multiple goroutines
 
 It’s clean and reliable
 
-waitgropu blnna heta 
+
+Here’s a better comparison:
+
+| Concept                     | Java/C#              | Go                   |
+| --------------------------- | -------------------- | -------------------- |
+| Lightweight concurrent task | Task                 | Goroutine            |
+| Wait for completion         | await                | WaitGroup / channel  |
+| Communication               | Task result / Future | Channels             |
+| Thread management           | ThreadPool           | Go runtime scheduler |
+
 
 

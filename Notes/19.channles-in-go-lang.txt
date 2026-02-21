@@ -382,5 +382,129 @@ That way, while the main() goroutine is looping over the channel and printing va
 👉 another goroutine is patiently waiting for WaitGroup to finish 👉 then it calls close(ch) to break the loop in main()
 
 
+Explaining this answer future more:
+-------------------------------------
+
+🔹 First: What range ch Actually Does
+
+When you write:
+
+for msg := range ch {
+    fmt.Println(msg)
+}
+
+This loop:
+
+Reads values from the channel
+
+Keeps waiting if no value is available
+
+Only stops when the channel is closed
+
+Very important:
+
+👉 range ch blocks until the channel is closed.
+
+
+Now Let’s Look at the “Wrong” Version
+
+Imagine this structure:
+
+wg.Wait()
+close(ch)
+
+for msg := range ch {
+    fmt.Println(msg)
+}
+
+This works fine.
+
+But that’s NOT the problematic case.
+
+The problematic case is this:
+
+for msg := range ch {
+    fmt.Println(msg)
+}
+
+wg.Wait()
+close(ch)
+
+Now let’s analyze execution order.
+
+Go executes main() top to bottom.
+
+So it sees:
+
+for msg := range ch {
+
+It enters the loop.
+
+Now main goroutine is stuck inside that loop waiting for values.
+
+It will NOT move to:
+
+wg.Wait()
+close(ch)
+
+until the loop ends.
+
+But the loop only ends when:
+
+👉 close(ch) is called.
+
+And close(ch) is written AFTER the loop.
+
+So:
+
+Loop waits for close
+
+close waits for loop to finish
+
+Deadlock
+
+That’s the circular dependency.
+
+
+Why We Use a Separate Goroutine
+
+Now look at this:
+
+go func() {
+    wg.Wait()
+    close(ch)
+}()
+
+Now what happens?
+
+Main starts worker goroutines.
+
+Main starts this new goroutine.
+
+Main continues to:
+
+for msg := range ch {
+    fmt.Println(msg)
+}
+
+Now:
+
+Main is blocked reading channel.
+
+The helper goroutine is waiting on wg.Wait().
+
+When all workers finish:
+
+wg.Wait() unblocks
+
+That goroutine calls close(ch)
+
+Channel closes
+
+range ch loop ends
+
+Program continues
+
+No circular wait.
 
 
